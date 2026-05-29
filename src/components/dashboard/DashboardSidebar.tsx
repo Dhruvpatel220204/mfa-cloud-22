@@ -94,18 +94,11 @@ export default function DashboardSidebar({ activeItem, onItemClick }: SidebarPro
 
               <item.icon className={`w-[18px] h-[18px] flex-shrink-0 ${isActive ? 'drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]' : ''}`} />
 
-              <AnimatePresence>
-                {!collapsed && (
-                  <motion.span
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: 'auto' }}
-                    exit={{ opacity: 0, width: 0 }}
-                    className="whitespace-nowrap overflow-hidden"
-                  >
-                    {item.label}
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              {!collapsed && (
+                <span className="whitespace-nowrap overflow-hidden">
+                  {item.label}
+                </span>
+              )}
             </button>
           );
         })}
