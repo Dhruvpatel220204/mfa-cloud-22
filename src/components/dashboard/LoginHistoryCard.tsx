@@ -38,11 +38,8 @@ export default function LoginHistoryCard({ attempts }: LoginHistoryCardProps) {
             </p>
           ) : (
             attempts.map((attempt, index) => (
-              <motion.div
+              <div
                 key={attempt.id}
-                initial={{ opacity: 0, x: -16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: Math.min(index * 0.03, 0.5) }}
                 className={`flex items-center gap-3 p-3 rounded-xl border transition-colors duration-200 ${
                   attempt.success
                     ? 'bg-emerald-500/[0.03] border-emerald-500/10 hover:border-emerald-500/30'
@@ -98,7 +95,7 @@ export default function LoginHistoryCard({ attempts }: LoginHistoryCardProps) {
                     minute: '2-digit',
                   })}
                 </div>
-              </motion.div>
+              </div>
             ))
           )}
         </div>

@@ -103,11 +103,8 @@ export default function ReportsPanel({ failedAttempts }: ThreatReportProps) {
             ) : (
               <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                 {failedAttempts.map((attempt, index) => (
-                  <motion.div
+                  <div
                     key={attempt.id}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.05 }}
                     className="p-4 rounded-xl border border-red-500/10 bg-red-500/[0.02] flex flex-col sm:flex-row gap-4"
                   >
                     <div className="flex-1 min-w-0">
@@ -140,7 +137,7 @@ export default function ReportsPanel({ failedAttempts }: ThreatReportProps) {
                         </span>
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 ))}
               </div>
             )}

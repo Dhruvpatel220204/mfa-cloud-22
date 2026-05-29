@@ -66,11 +66,8 @@ export default function ThreatDetectionPanel({ failedAttempts }: ThreatPanelProp
           {enrichedThreats.map((threat, i) => {
             const sev = SEVERITY_CONFIG[threat.severity] || SEVERITY_CONFIG.medium;
             return (
-              <motion.div
+              <div
                 key={threat.id}
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.06 }}
                 className={`p-3 rounded-xl border ${sev.border} ${sev.bg} ${sev.glow} flex items-center gap-3 transition-all hover:scale-[1.01]`}
               >
                 <div className={`w-8 h-8 rounded-lg ${sev.bg} flex items-center justify-center flex-shrink-0`}>
@@ -92,7 +89,7 @@ export default function ThreatDetectionPanel({ failedAttempts }: ThreatPanelProp
                 <span className="text-[11px] text-slate-500 font-mono flex-shrink-0">
                   {threat.time}
                 </span>
-              </motion.div>
+              </div>
             );
           })}
         </div>
