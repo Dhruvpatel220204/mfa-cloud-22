@@ -1,0 +1,2 @@
+DROP POLICY "Anyone can insert login attempts" ON public.login_attempts;
+CREATE POLICY "Authenticated users can insert login attempts" ON public.login_attempts FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
