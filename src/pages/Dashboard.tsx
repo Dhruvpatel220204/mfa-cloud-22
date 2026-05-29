@@ -230,6 +230,32 @@ export default function Dashboard() {
   const failedAttempts = visibleAttempts.filter(a => !a.success);
   const failedLogins = failedAttempts.length;
 
+  const activeSessionsCount = Math.max(
+    1,
+    Array.from(
+      new Set(
+        sessions
+          .filter((s) => {
+            if (!s.is_active) return false;
+            const lastActiveTime = new Date(s.last_active).getTime();
+            return Date.now() - lastActiveTime < 60 * 60 * 1000; // active in last 1 hour
+          })
+          .map((s) => `${s.browser || 'Unknown'}-${s.os || 'Unknown'}`)
+      )
+    ).length
+  );
+
+  const trustedDevicesCount = Math.max(
+    1,
+    Array.from(
+      new Set(
+        devices
+          .filter((d) => d.is_trusted)
+          .map((d) => `${d.browser || 'Unknown'}-${d.os || 'Unknown'}`)
+      )
+    ).length
+  );
+
   useEffect(() => {
     const updatedScore = calculateTrustScore({
       isKnownDevice: true,
@@ -274,7 +300,7 @@ export default function Dashboard() {
         return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
             <DevicesCard
-              devices={devices}
+              devices={devices.slice(0, 20)}
               onRemoveDevice={async (id) => {
                 await supabase.from('devices').delete().eq('id', id);
                 setDevices(d => d.filter(x => x.id !== id));
@@ -292,7 +318,7 @@ export default function Dashboard() {
         return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-3xl mx-auto">
             <ActiveSessionsCard
-              sessions={sessions}
+              sessions={sessions.slice(0, 20)}
               onEndSession={async (id) => {
                 await supabase.from('user_sessions').update({ is_active: false }).eq('id', id);
                 setSessions(s => s.map(x => x.id === id ? { ...x, is_active: false } : x));
@@ -332,11 +358,11 @@ export default function Dashboard() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <SecurityOverview
                 mfaEnabled={profile?.mfa_enabled || false}
-                totalDevices={devices.length}
+                totalDevices={trustedDevicesCount}
                 totalLogins={visibleAttempts.length}
                 failedLogins={failedLogins}
                 trustScore={trustScore.score}
-                activeSessions={sessions.filter(s => s.is_active).length}
+                activeSessions={activeSessionsCount}
                 threatsBlocked={failedLogins} // Using failed logins as a proxy for blocked threats
               />
             </motion.div>
