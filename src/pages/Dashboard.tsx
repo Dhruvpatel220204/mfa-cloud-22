@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useTransition } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { supabase } from '@/integrations/supabase/client';
@@ -31,6 +31,13 @@ export default function Dashboard() {
   const [sessions, setSessions] = useState<any[]>([]);
   const [trustScore, setTrustScore] = useState<{ score: number; level: 'low' | 'medium' | 'high' | 'critical' }>({ score: 85, level: 'low' });
   const [activeTab, setActiveTab] = useState('overview');
+  const [isPending, startTransition] = useTransition();
+
+  const handleTabChange = useCallback((tab: string) => {
+    startTransition(() => {
+      setActiveTab(tab);
+    });
+  }, []);
 
   const [newEmail, setNewEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -346,7 +353,7 @@ export default function Dashboard() {
                   <SecurityRecommendations
                     trustScore={trustScore.score}
                     mfaEnabled={profile?.mfa_enabled || false}
-                    onEnableMfa={() => setActiveTab('mfa')}
+                    onEnableMfa={() => handleTabChange('mfa')}
                   />
                 </div>
                 <ThreatDetectionPanel failedAttempts={failedAttempts} />
@@ -385,7 +392,7 @@ export default function Dashboard() {
       </div>
 
       {/* Sidebar */}
-      <DashboardSidebar activeItem={activeTab} onItemClick={setActiveTab} />
+      <DashboardSidebar activeItem={activeTab} onItemClick={handleTabChange} />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 relative z-10">
