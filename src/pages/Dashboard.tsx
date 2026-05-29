@@ -31,12 +31,13 @@ export default function Dashboard() {
   const [sessions, setSessions] = useState<any[]>([]);
   const [trustScore, setTrustScore] = useState<{ score: number; level: 'low' | 'medium' | 'high' | 'critical' }>({ score: 85, level: 'low' });
   const [activeTab, setActiveTab] = useState('overview');
-  const [isPending, startTransition] = useTransition();
+  const [renderedTab, setRenderedTab] = useState('overview');
 
   const handleTabChange = useCallback((tab: string) => {
-    startTransition(() => {
-      setActiveTab(tab);
-    });
+    setActiveTab(tab);
+    setTimeout(() => {
+      setRenderedTab(tab);
+    }, 0);
   }, []);
 
   const [newEmail, setNewEmail] = useState('');
@@ -239,9 +240,8 @@ export default function Dashboard() {
     setTrustScore(updatedScore);
   }, [failedLogins]);
 
-  // Render logic based on active tab
   const renderContent = () => {
-    switch (activeTab) {
+    switch (renderedTab) {
       case 'threats':
         return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid lg:grid-cols-2 gap-6">
@@ -463,7 +463,7 @@ export default function Dashboard() {
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 custom-scrollbar">
           <AnimatePresence mode="wait">
             <motion.div
-              key={activeTab}
+              key={renderedTab}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
