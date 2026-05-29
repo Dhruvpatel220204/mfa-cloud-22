@@ -85,7 +85,8 @@ export default function DashboardSidebar({ activeItem, onItemClick }: SidebarPro
               {/* Active glow indicator */}
               {isActive && (
                 <motion.div
-                  layoutId="sidebar-active"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-r-full bg-cyan-400"
                   style={{ boxShadow: '0 0 12px rgba(6,182,212,0.6)' }}
                 />
