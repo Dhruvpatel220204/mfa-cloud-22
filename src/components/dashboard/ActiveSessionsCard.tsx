@@ -55,11 +55,8 @@ export default function ActiveSessionsCard({ sessions, onEndSession }: ActiveSes
                   : `${Math.round(duration / 1440)}d`;
 
               return (
-                <motion.div
+                <div
                   key={session.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.08 }}
                   className="flex items-center gap-4 p-4 rounded-xl border border-cyan-500/10 bg-cyan-500/[0.02] hover:border-cyan-500/25 transition-colors"
                 >
                   {/* Icon */}
@@ -108,7 +105,7 @@ export default function ActiveSessionsCard({ sessions, onEndSession }: ActiveSes
                     <LogOut className="w-4 h-4 mr-1" />
                     Kill
                   </Button>
-                </motion.div>
+                </div>
               );
             })
           )}

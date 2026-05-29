@@ -50,13 +50,9 @@ export default function DevicesCard({ devices, onRemoveDevice, onToggleTrust }: 
             devices.map((device, index) => {
               const Icon = getDeviceIcon(device.os);
               return (
-                <motion.div
+                <div
                   key={device.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.08 }}
-                  whileHover={{ scale: 1.01 }}
-                  className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 ${
+                  className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 hover:scale-[1.01] ${
                     device.is_trusted
                       ? 'bg-emerald-500/[0.03] border-emerald-500/15 hover:border-emerald-500/30'
                       : 'bg-slate-100 dark:bg-slate-800/30 border-slate-200 dark:border-slate-700/50 hover:border-slate-600'
@@ -141,7 +137,7 @@ export default function DevicesCard({ devices, onRemoveDevice, onToggleTrust }: 
                       <Trash2 className="w-4 h-4" />
                     </Button>
                   </div>
-                </motion.div>
+                </div>
               );
             })
           )}

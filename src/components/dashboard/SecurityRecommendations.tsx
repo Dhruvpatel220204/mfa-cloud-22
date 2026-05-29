@@ -70,11 +70,8 @@ export default function SecurityRecommendations({ trustScore, mfaEnabled, onEnab
         </div>
 
         <div className="flex-1 space-y-3 overflow-y-auto pr-1">
-          <AnimatePresence>
             {visibleRecommendations.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+              <div
                 className="flex flex-col items-center justify-center h-full text-center py-8"
               >
                 <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center mb-3">
@@ -82,15 +79,11 @@ export default function SecurityRecommendations({ trustScore, mfaEnabled, onEnab
                 </div>
                 <p className="text-sm font-medium text-slate-900 dark:text-white">All Clear</p>
                 <p className="text-xs text-slate-500 mt-1">Your security posture is optimal.</p>
-              </motion.div>
+              </div>
             ) : (
               visibleRecommendations.map((rec, i) => (
-                <motion.div
+                <div
                   key={rec.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9, x: -20 }}
-                  transition={{ delay: i * 0.1 }}
                   className="group relative p-4 rounded-xl border border-slate-200 dark:border-slate-700/50 bg-slate-100 dark:bg-slate-800/30 hover:bg-slate-100 dark:bg-slate-800/60 hover:border-indigo-500/30 transition-all overflow-hidden"
                 >
                   {/* Priority indicator line */}
@@ -130,10 +123,9 @@ export default function SecurityRecommendations({ trustScore, mfaEnabled, onEnab
                       )}
                     </div>
                   </div>
-                </motion.div>
+                  </div>
               ))
             )}
-          </AnimatePresence>
         </div>
       </div>
     </div>
