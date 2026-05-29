@@ -5,7 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { getDeviceInfo, calculateTrustScore } from '@/lib/device-fingerprint';
 import { toast } from 'sonner';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Bell, User, LogOut, ShieldCheck, Cpu } from 'lucide-react';
+import { Search, User, LogOut, ShieldCheck, Cpu } from 'lucide-react';
 
 import { ThemeToggle } from '@/components/theme-toggle';
 import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
@@ -20,6 +20,7 @@ import SecurityAnalyticsChart from '@/components/dashboard/SecurityAnalyticsChar
 import SecurityRecommendations from '@/components/dashboard/SecurityRecommendations';
 import SettingsPanel from '@/components/dashboard/SettingsPanel';
 import ReportsPanel from '@/components/dashboard/ReportsPanel';
+import NotificationBell from '@/components/dashboard/NotificationBell';
 
 export default function Dashboard() {
   const { user, signOut } = useAuth();
@@ -417,12 +418,11 @@ export default function Dashboard() {
 
             <div className="h-6 w-[1px] bg-slate-100 dark:bg-slate-800" />
 
-            <button className="relative p-2 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:text-white transition-colors rounded-lg hover:bg-slate-100 dark:bg-slate-800">
-              <Bell className="w-5 h-5" />
-              {failedLogins > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-slate-950" />
-              )}
-            </button>
+            <NotificationBell
+              failedAttempts={failedAttempts}
+              devices={devices}
+              loginAttempts={visibleAttempts}
+            />
 
             <ThemeToggle />
 
